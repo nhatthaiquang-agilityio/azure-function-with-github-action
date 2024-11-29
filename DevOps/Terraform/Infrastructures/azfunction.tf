@@ -2,14 +2,14 @@
 resource "azurerm_storage_account" "example" {
   name                     = "${var.az_function_storage_account_name}"
   resource_group_name      = data.azurerm_resource_group.rg.name
-  location                 = var.location
+  location                 = data.azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
 resource "azurerm_application_insights" "application_insights" {
   name                = "application-insights"
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   application_type    = "web"
 }
@@ -18,7 +18,7 @@ resource "azurerm_application_insights" "application_insights" {
 resource "azurerm_service_plan" "example" {
   name                = "rk-app-service-plan01"
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
   os_type             = "Windows"
   # Windows Premium Plan
   sku_name            = "P1v2"
@@ -28,7 +28,7 @@ resource "azurerm_service_plan" "example" {
 resource "azurerm_windows_function_app" "example_az_func" {
   name                = "${var.azurerm_windows_function_app_name}"
   resource_group_name = data.azurerm_resource_group.rg.name
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
 
   storage_account_name = azurerm_storage_account.example.name
   storage_account_access_key = azurerm_storage_account.example.primary_access_key
@@ -59,7 +59,7 @@ resource "azurerm_private_dns_zone" "pdnszone_az_func" {
 # Private Endpoint for Azure Function
 resource "azurerm_private_endpoint" "pv_endpoint_example_az_func" {
   name                = var.pv_endpoint_name
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   subnet_id           = azurerm_subnet.az_func_subnet_pe.id
 

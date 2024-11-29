@@ -1,6 +1,6 @@
 resource "azurerm_network_security_group" "az_func_network_sg" {
   name                = "example-security-group"
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
@@ -8,7 +8,7 @@ resource "azurerm_network_security_group" "az_func_network_sg" {
 resource "azurerm_virtual_network" "az_func_network" {
   name                = "az-func-vn-vnet"
   address_space       = ["10.0.0.0/16"]
-  location            = var.location
+  location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 

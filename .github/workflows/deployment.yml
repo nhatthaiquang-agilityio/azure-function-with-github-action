@@ -41,12 +41,15 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/run-terraform@main
+      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/terraform@main
         id: run-terraform
         with:
           working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
           environment: 'test'
-          arm-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          arm-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           terraform-resource-group-name: ${{ env.TERRAFORM_RESOURCE_GROUP_NAME }}
           terraform-storage-account: ${{ env.TERRAFORM_STORAGE_ACCOUNT }}
           terraform-container-name: ${{ env.TERRAFORM_CONTAINER_NAME }}
