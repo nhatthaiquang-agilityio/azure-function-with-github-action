@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: nhatthaiquang-agilityio/Terraform-CI-CD
-          token: ${{ secrets.GITHUB_PAT }}
+          token: ${{ secrets.ACCESS_GITHUB_PAT }}
           ref: 'main'
           path: 'Terraform-CI-CD'
 
@@ -46,7 +46,7 @@ jobs:
   #       uses: actions/checkout@v4
   #       with:
   #         repository: nhatthaiquang-agilityio/Terraform-CI-CD
-  #         token: ${{ secrets.GITHUB_PAT }}
+  #         token: ${{ secrets.ACCESS_GITHUB_PAT }}
   #         ref: 'main'
   #         path: 'Terraform-CI-CD'
 
