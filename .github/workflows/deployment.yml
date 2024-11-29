@@ -21,53 +21,39 @@ env:
   BUILD_NAME: 'ExampleAzureFunctions'
 
 jobs:
-  build:
+  # build:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - name: Checkout source code
+  #       uses: actions/checkout@v4
+
+  #     - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
+  #       id: build-package
+  #       with:
+  #         solution-path: ${{ env.SOLUTION_PATH }}
+  #         build-target-path: ${{ env.PROJECT_TARGET_PATH }}
+  #         build-name: ${{ env.BUILD_NAME }}
+
+  setup-infrastructure-on-test:
     runs-on: windows-latest
+    environment: test
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # - name: Checkout Terraform-CI-CD
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: nhatthaiquang-agilityio/Terraform-CI-CD
-      #     token: ${{ secrets.ACCESS_GITHUB_PAT }}
-      #     ref: 'main'
-      #     path: 'Terraform-CI-CD'
-
-      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
-        id: build-package
+      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/run-terraform@main
+        id: run-terraform
         with:
-          solution-path: ${{ env.SOLUTION_PATH }}
-          build-target-path: ${{ env.PROJECT_TARGET_PATH }}
-          build-name: ${{ env.BUILD_NAME }}
-
-  # setup-infrastructure-on-test:
-  #   runs-on: windows-latest
-  #   environment: test
-
-  #   steps:
-  #     - name: Checkout Terraform-CI-CD
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repository: nhatthaiquang-agilityio/Terraform-CI-CD
-  #         token: ${{ secrets.ACCESS_GITHUB_PAT }}
-  #         ref: 'main'
-  #         path: 'Terraform-CI-CD'
-
-  #     - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/run-terraform@main
-  #       id: run-terraform
-  #       with:
-  #         working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
-  #         environment: 'test'
-  #         arm-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-  #         arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-  #         arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  #         arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-  #         terraform-resource-group-name: ${{ env.TERRAFORM_RESOURCE_GROUP_NAME }}
-  #         terraform-storage-account: ${{ env.TERRAFORM_STORAGE_ACCOUNT }}
-  #         terraform-container-name: ${{ env.TERRAFORM_CONTAINER_NAME }}
-  #         terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
+          working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
+          environment: 'test'
+          arm-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          terraform-resource-group-name: ${{ env.TERRAFORM_RESOURCE_GROUP_NAME }}
+          terraform-storage-account: ${{ env.TERRAFORM_STORAGE_ACCOUNT }}
+          terraform-container-name: ${{ env.TERRAFORM_CONTAINER_NAME }}
+          terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
 
   # deploy:
   #   runs-on: windows-latest
