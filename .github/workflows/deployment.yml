@@ -24,13 +24,16 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Checkout Terraform-CI-CD
+      - name: Checkout source code
         uses: actions/checkout@v4
-        with:
-          repository: nhatthaiquang-agilityio/Terraform-CI-CD
-          token: ${{ secrets.ACCESS_GITHUB_PAT }}
-          ref: 'main'
-          path: 'Terraform-CI-CD'
+
+      # - name: Checkout Terraform-CI-CD
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: nhatthaiquang-agilityio/Terraform-CI-CD
+      #     token: ${{ secrets.ACCESS_GITHUB_PAT }}
+      #     ref: 'main'
+      #     path: 'Terraform-CI-CD'
 
       - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
         id: build-package
