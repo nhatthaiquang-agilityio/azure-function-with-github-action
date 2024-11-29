@@ -1,0 +1,8 @@
+environment = "test"
+location="SouthEast Asia"
+resource_group_name="RG-ExampleAzureFunctions"
+az_function_storage_account_name="stdexampleazfunc"
+azurerm_windows_function_app_name="example-az-func"
+az_function_pv_svc_connection="pe-svc-exampleazfunc"
+pv_endpoint_name="pe-func-exampleazfunc"
+az_function_private_dns_zone_group="/subscriptions/38df8db5-1d29-4087-9e88-16d38de1e276/resourceGroups/RG-ExampleAzureFunctions/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net"
