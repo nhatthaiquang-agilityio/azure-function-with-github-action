@@ -1,0 +1,78 @@
+name: Deploy Azure Function App
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ExampleAzureFunctions/**'
+      - 'DevOps/**'
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'example-az-func'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  TERRAFORM_FILENAME: 'infrastructure.tfstate'
+  TERRAFORM_WORKING_DIRECTORY: './DevOps/Terraform/Infrastructures'
+  TERRAFORM_STORAGE_ACCOUNT: 'tfstateexampleazfunc'
+  TERRAFORM_CONTAINER_NAME: 'tfstatecontainer'
+  TERRAFORM_RESOURCE_GROUP_NAME: 'RG-ExampleAzureFunctions'
+  PROJECT_TARGET_PATH: 'ExampleAzureFunctions'
+  SOLUTION_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.sln'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Terraform-CI-CD
+        uses: actions/checkout@v4
+        with:
+          repository: nhatthaiquang-agilityio/Terraform-CI-CD
+          token: ${{ secrets.GITHUB_PAT }}
+          ref: 'main'
+          path: 'Terraform-CI-CD'
+
+      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
+        id: build-package
+        with:
+          solution-path: ${{ env.SOLUTION_PATH }}
+          build-target-path: ${{ env.PROJECT_TARGET_PATH }}
+
+  # setup-infrastructure-on-test:
+  #   runs-on: windows-latest
+  #   environment: test
+
+  #   steps:
+  #     - name: Checkout Terraform-CI-CD
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repository: nhatthaiquang-agilityio/Terraform-CI-CD
+  #         token: ${{ secrets.GITHUB_PAT }}
+  #         ref: 'main'
+  #         path: 'Terraform-CI-CD'
+
+  #     - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/run-terraform@main
+  #       id: run-terraform
+  #       with:
+  #         working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
+  #         environment: 'test'
+  #         arm-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+  #         arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+  #         arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #         arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+  #         terraform-resource-group-name: ${{ env.TERRAFORM_RESOURCE_GROUP_NAME }}
+  #         terraform-storage-account: ${{ env.TERRAFORM_STORAGE_ACCOUNT }}
+  #         terraform-container-name: ${{ env.TERRAFORM_CONTAINER_NAME }}
+  #         terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
+
+  # deploy:
+  #   runs-on: windows-latest
+  #   environment: test
+  #   needs: [build, setup-infrastructure-on-test]
+  #   steps:
+  #   - name: 'Run Azure Functions Action'
+  #     uses: Azure/functions-action@v1
+  #     id: fa
+  #     with:
+  #       app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+  #       package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+  #       publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
