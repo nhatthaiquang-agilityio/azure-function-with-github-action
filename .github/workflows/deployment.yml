@@ -17,7 +17,7 @@ env:
   TERRAFORM_CONTAINER_NAME: 'tfstatecontainer'
   TERRAFORM_RESOURCE_GROUP_NAME: 'RG-ExampleAzureFunctions'
   PROJECT_TARGET_PATH: 'ExampleAzureFunctions'
-  SOLUTION_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.sln'
+  SOLUTION_PATH: 'ExampleAzureFunctions/ExampleAzureFunctions.sln'
 
 jobs:
   build:
