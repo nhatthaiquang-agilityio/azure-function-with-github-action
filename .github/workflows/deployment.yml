@@ -16,8 +16,9 @@ env:
   TERRAFORM_STORAGE_ACCOUNT: 'tfstateexampleazfunc'
   TERRAFORM_CONTAINER_NAME: 'tfstatecontainer'
   TERRAFORM_RESOURCE_GROUP_NAME: 'RG-ExampleAzureFunctions'
-  PROJECT_TARGET_PATH: 'ExampleAzureFunctions'
+  PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.sln'
   SOLUTION_PATH: 'ExampleAzureFunctions.sln'
+  BUILD_NAME: 'ExampleAzureFunctions'
 
 jobs:
   build:
@@ -36,6 +37,7 @@ jobs:
         with:
           solution-path: ${{ env.SOLUTION_PATH }}
           build-target-path: ${{ env.PROJECT_TARGET_PATH }}
+          build-name: ${{ env.BUILD_NAME }}
 
   # setup-infrastructure-on-test:
   #   runs-on: windows-latest
