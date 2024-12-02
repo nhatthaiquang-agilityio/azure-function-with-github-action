@@ -13,7 +13,7 @@ resource "azurerm_storage_account" "example" {
   network_rules {
     default_action             = "Deny"
     bypass                     = ["AzureServices"]
-    virtual_network_subnet_ids = [azurerm_subnet.az_func_subnet_int.id]
+    virtual_network_subnet_ids = [azurerm_subnet.az_func_subnet_pe.id]
   }
 }
 
