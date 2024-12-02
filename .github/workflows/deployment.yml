@@ -57,7 +57,7 @@ jobs:
           terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
 
   deploy:
-    runs-on: self-hosted
+    runs-on: [self-hosted, Windows, X64]
     environment: test
     needs: [build, setup-infrastructure-on-test]
     steps:
