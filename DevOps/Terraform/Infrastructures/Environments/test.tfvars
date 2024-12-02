@@ -1,5 +1,4 @@
 environment = "test"
-location="SouthEast Asia"
 resource_group_name="RG-ExampleAzureFunctions"
 az_function_storage_account_name="stdexampleazfunc"
 azurerm_windows_function_app_name="example-az-func"
