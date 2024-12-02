@@ -36,3 +36,25 @@ variable "az_function_private_dns_zone_group" {
   type = string
   default = ""
 }
+
+variable "service_bus_name" {
+  type = string
+  default = ""
+}
+
+variable "service_bus_queue_name" {
+  type = string
+  default = "example-az"
+  description = "Queue Name of Service Bus using Azure Function"
+}
+
+variable "service_bus_sku" {
+  type = string
+  default = ""
+}
+
+variable "service_bus_capacity" {
+  type = number
+  default = 0
+  description = "Service Bus Capacity of Azure Function"
+}
