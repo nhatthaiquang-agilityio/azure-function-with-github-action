@@ -46,5 +46,10 @@ resource "azurerm_servicebus_namespace_network_rule_set" "svc_bus_network_rule" 
   namespace_id = azurerm_servicebus_namespace.svc_bus.id
 
   default_action                = "Deny"
-  virtual_network_subnet_ids = [azurerm_subnet.az_func_subnet_int.id]
+  public_network_access_enabled = true
+
+  network_rules {
+    subnet_id                            = azurerm_subnet.az_func_subnet_int.id
+    ignore_missing_vnet_service_endpoint = false
+  }
 }
