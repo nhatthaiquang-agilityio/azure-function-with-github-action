@@ -41,15 +41,18 @@ output "bus_namespaces_details" {
   description = "A map of the created Service Bus Namespace objects, providing each namespace's ID and name."
 }
 
-
+# It applies  when the service bus sku is not Standard
 resource "azurerm_servicebus_namespace_network_rule_set" "svc_bus_network_rule" {
   namespace_id = azurerm_servicebus_namespace.svc_bus.id
 
   default_action                = "Deny"
   public_network_access_enabled = true
 
-  network_rules {
-    subnet_id                            = azurerm_subnet.az_func_subnet_int.id
-    ignore_missing_vnet_service_endpoint = false
-  }
+	ip_rules = [azurerm_private_endpoint.pv_endpoint_example_az_func.private_ip_address]
+
+	# Premium
+  #network_rules {
+  #  subnet_id                            = azurerm_subnet.az_func_subnet_int.id
+  #  ignore_missing_vnet_service_endpoint = false
+  #}
 }
