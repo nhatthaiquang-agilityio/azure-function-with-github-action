@@ -6,10 +6,6 @@ variable "resource_group_name" {
   type = string
 }
 
-variable "location" {
-  type = string
-}
-
 variable "az_function_storage_account_name" {
   type = string
   default = ""
