@@ -42,17 +42,17 @@ output "bus_namespaces_details" {
 }
 
 # It applies  when the service bus sku is not Standard
-resource "azurerm_servicebus_namespace_network_rule_set" "svc_bus_network_rule" {
-  namespace_id = azurerm_servicebus_namespace.svc_bus.id
+#resource "azurerm_servicebus_namespace_network_rule_set" "svc_bus_network_rule" {
+  #namespace_id = azurerm_servicebus_namespace.svc_bus.id
 
-  default_action                = "Deny"
-  public_network_access_enabled = true
+  #default_action                = "Deny"
+  #public_network_access_enabled = true
 
-	ip_rules = ["10.0.2.4"]
+	#ip_rules = ["10.0.2.4"]
 
 	# Premium
   #network_rules {
   #  subnet_id                            = azurerm_subnet.az_func_subnet_int.id
   #  ignore_missing_vnet_service_endpoint = false
   #}
-}
+#}
