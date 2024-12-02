@@ -27,6 +27,13 @@ resource "azurerm_subnet" "az_func_subnet_int" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+  service_endpoints = [
+    "Microsoft.EventHub",
+    "Microsoft.KeyVault",
+    "Microsoft.ServiceBus",
+    "Microsoft.Storage",
+    "Microsoft.Web",
+  ]
 }
 
 # Subnet 2: private Endpoint
