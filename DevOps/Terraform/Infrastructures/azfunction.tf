@@ -5,6 +5,16 @@ resource "azurerm_storage_account" "example" {
   location                 = data.azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
+  tags     			  			= merge(var.tags, {
+    environment = var.environment
+  })
+
+  network_rules {
+    default_action             = "Deny"
+    bypass                     = ["AzureServices"]
+    virtual_network_subnet_ids = [azurerm_subnet.az_func_subnet_int.id]
+  }
 }
 
 resource "azurerm_application_insights" "application_insights" {

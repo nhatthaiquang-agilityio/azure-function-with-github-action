@@ -6,6 +6,7 @@ on:
     paths:
       - 'ExampleAzureFunctions/**'
       - 'DevOps/**'
+      - '.github/workflows/deployment.yml'
   workflow_dispatch:
 
 env:
@@ -56,7 +57,7 @@ jobs:
           terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
 
   deploy:
-    runs-on: windows-latest
+    runs-on: self-hosted
     environment: test
     needs: [build, setup-infrastructure-on-test]
     steps:
