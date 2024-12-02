@@ -48,7 +48,7 @@ resource "azurerm_servicebus_namespace_network_rule_set" "svc_bus_network_rule" 
   default_action                = "Deny"
   public_network_access_enabled = true
 
-	ip_rules = [azurerm_private_endpoint.pv_endpoint_example_az_func.private_ip_address]
+	ip_rules = [10.0.2.4]
 
 	# Premium
   #network_rules {
