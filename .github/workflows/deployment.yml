@@ -21,18 +21,18 @@ env:
   BUILD_NAME: 'ExampleAzureFunctions'
 
 jobs:
-  # build:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v4
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-  #     - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
-  #       id: build-package
-  #       with:
-  #         solution-path: ${{ env.SOLUTION_PATH }}
-  #         build-target-path: ${{ env.PROJECT_TARGET_PATH }}
-  #         build-name: ${{ env.BUILD_NAME }}
+      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
+        id: build-package
+        with:
+          solution-path: ${{ env.SOLUTION_PATH }}
+          build-target-path: ${{ env.PROJECT_TARGET_PATH }}
+          build-name: ${{ env.BUILD_NAME }}
 
   setup-infrastructure-on-test:
     runs-on: windows-latest
@@ -55,15 +55,15 @@ jobs:
           terraform-container-name: ${{ env.TERRAFORM_CONTAINER_NAME }}
           terraform-filename: 'test.${{ env.TERRAFORM_FILENAME }}'
 
-  # deploy:
-  #   runs-on: windows-latest
-  #   environment: test
-  #   needs: [build, setup-infrastructure-on-test]
-  #   steps:
-  #   - name: 'Run Azure Functions Action'
-  #     uses: Azure/functions-action@v1
-  #     id: fa
-  #     with:
-  #       app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-  #       package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-  #       publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+  deploy:
+    runs-on: windows-latest
+    environment: test
+    needs: [build, setup-infrastructure-on-test]
+    steps:
+    - name: 'Deploy Azure Function App'
+      uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/deploy-azure-function@main
+      id: azure-functions
+      with:
+        azure-function-app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        azure-function-package-path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
