@@ -67,7 +67,4 @@ jobs:
       with:
         azure-function-app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         azure-function-package-path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}\${{ env.BUILD_NUMBER }}'
-        # arm-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        # arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        # arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        # arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        arm-credentials: ${{ secrets.AZURE_CREDENTIALS }}
