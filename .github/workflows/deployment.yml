@@ -19,7 +19,7 @@ env:
   PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.csproj'
   SOLUTION_PATH: 'ExampleAzureFunctions.sln'
   BUILD_NAME: 'ExampleAzureFunctions'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ github.workspace }}\${{ env.build-name }}.${{ env.BUILD_NUMBER }}
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ github.workspace }}\ExampleAzureFunctions.${{ env.BUILD_NUMBER }}
 
 jobs:
   build:
