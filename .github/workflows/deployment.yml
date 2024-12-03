@@ -11,7 +11,6 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'example-az-func'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   TERRAFORM_FILENAME: 'infrastructure.tfstate'
   TERRAFORM_WORKING_DIRECTORY: './DevOps/Terraform/Infrastructures'
   TERRAFORM_STORAGE_ACCOUNT: 'tfstateexampleazfunc'
@@ -20,6 +19,7 @@ env:
   PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.csproj'
   SOLUTION_PATH: 'ExampleAzureFunctions.sln'
   BUILD_NAME: 'ExampleAzureFunctions'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ github.workspace }}\${{ env.build-name }}.${{ env.BUILD_NUMBER }}
 
 jobs:
   build:
@@ -65,6 +65,7 @@ jobs:
       uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/deploy-azure-function@main
       id: azure-functions
       with:
+        artifact-name: ${{ steps.build-package.outputs.artifact-name }}
         azure-function-app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        azure-function-package-path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}\${{ env.BUILD_NUMBER }}'
+        azure-function-package-path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         arm-credentials: ${{ secrets.AZURE_CREDENTIALS }}
