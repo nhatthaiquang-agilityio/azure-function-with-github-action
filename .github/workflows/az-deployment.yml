@@ -1,13 +1,13 @@
 name: Build and deploy dotnet core app to Azure Function App
-
-push:
-  branches:
-    - main
-  paths:
-    - 'ExampleAzureFunctions/**'
-    - 'DevOps/**'
-    - '.github/workflows/deployment.yml'
-  workflow_dispatch:
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ExampleAzureFunctions/**'
+      - 'DevOps/**'
+      - '.github/workflows/deployment.yml'
+    workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'example-az-func'
