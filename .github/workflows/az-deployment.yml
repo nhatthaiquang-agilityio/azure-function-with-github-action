@@ -6,7 +6,7 @@ on:
     paths:
       - 'ExampleAzureFunctions/**'
       - 'DevOps/**'
-      - '.github/workflows/deployment.yml'
+      - '.github/workflows/az-deployment.yml'
     workflow_dispatch:
 
 env:
