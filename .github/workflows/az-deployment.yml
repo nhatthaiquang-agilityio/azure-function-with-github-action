@@ -1,0 +1,43 @@
+name: Build and deploy dotnet core app to Azure Function App
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ExampleAzureFunctions/**'
+      - 'DevOps/**'
+      - '.github/workflows/deployment.yml'
+    workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'example-az-func'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'ExampleAzureFuntions'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v3.6.0
+
+      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: 'Resolve Project Dependencies Using Dotnet'
+        shell: pwsh
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: '${{ env.AZURE_FUNCTIONAPP_NAME }}'
+          slot-name: 'Production'
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}

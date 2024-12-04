@@ -1,0 +1,56 @@
+name: Deploy Azure Function App
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ExampleAzureFunctions/**'
+      - 'DevOps/**'
+      - '.github/workflows/deployment.yml'
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'example-az-func'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './ExampleAzureFunctions'
+  PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.csproj'
+  SOLUTION_PATH: 'ExampleAzureFunctions.sln'
+  BUILD_NAME: 'ExampleAzureFunctions'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
+        id: build-package
+        with:
+          solution-path: ${{ env.SOLUTION_PATH }}
+          build-target-path: ${{ env.PROJECT_TARGET_PATH }}
+          build-name: ${{ env.BUILD_NAME }}
+
+  deploy:
+    runs-on: windows-latest
+    environment: test
+    needs: [build]
+    steps:
+    - name: 'Deploy Azure Function App'
+      uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/deploy-azure-function@main
+      id: azure-functions
+      with:
+        azure-function-app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        azure-function-package-path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: 'drop'
+        path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: azure-functions
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        publish-profile: '${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}'
