@@ -11,10 +11,9 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'example-az-func'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './ExampleAzureFunctions'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './build-packages'
   PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.csproj'
-  SOLUTION_PATH: 'ExampleAzureFunctions.sln'
-  BUILD_NAME: 'ExampleAzureFunctions'
+  BUILD_NAME: 'ExampleAzFunc'
 
 jobs:
   build:
@@ -26,7 +25,6 @@ jobs:
       - uses: nhatthaiquang-agilityio/Terraform-CI-CD/.github/actions/build-package-dotnet@main
         id: build-package
         with:
-          solution-path: ${{ env.SOLUTION_PATH }}
           build-target-path: ${{ env.PROJECT_TARGET_PATH }}
           build-name: ${{ env.BUILD_NAME }}
 
