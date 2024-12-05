@@ -1,4 +1,4 @@
-name: Build and deploy dotnet core app to Azure Function App
+name: Build and deploy to a Public Azure Function App
 on:
   push:
     branches:
