@@ -38,7 +38,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: '${{ env.BUILD_NAME }}.${{ env.build_number }}'
+          name: 'drop'
           path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
       - name: 'Run Azure Functions Action'
