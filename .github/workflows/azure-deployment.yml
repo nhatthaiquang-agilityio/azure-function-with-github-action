@@ -1,4 +1,4 @@
-name: Deploy Azure Function App
+name: Deploy a Public Azure Function App
 on:
   push:
     branches:
@@ -38,7 +38,7 @@ jobs:
       - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
-          name: 'drop'
+          name: '${{ env.BUILD_NAME }}.${{ env.build_number }}'
           path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
       - name: 'Run Azure Functions Action'
