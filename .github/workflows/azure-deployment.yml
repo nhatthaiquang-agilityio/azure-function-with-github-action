@@ -11,7 +11,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'example-az-func'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '${{ github.workspace }}\build-packages\'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '${{ github.workspace }}\build-packages'
   PROJECT_TARGET_PATH: './ExampleAzureFunctions/ExampleAzureFunctions.csproj'
   BUILD_NAME: 'ExampleAzFunc'
 
@@ -41,10 +41,10 @@ jobs:
 
       # You can also make use of a ZIP GitHub Action
       - name: "Create ZIP"
+        shell: pwsh
         run: |
           Set-Location ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           Get-ChildItem $pwd | Compress-Archive -Destination .\backend.zip
-        shell: pwsh
 
       - name: 'Deploy the ZIP to the app'
         uses: azure/webapps-deploy@v2
