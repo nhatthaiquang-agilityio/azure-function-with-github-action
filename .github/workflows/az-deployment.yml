@@ -7,7 +7,7 @@ on:
       - 'ExampleAzureFunctions/**'
       - 'DevOps/**'
       - '.github/workflows/az-deployment.yml'
-    workflow_dispatch:
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'example-az-func'
